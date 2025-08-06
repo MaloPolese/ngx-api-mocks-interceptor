@@ -1,0 +1,24 @@
+<button type="button" (click)="download()">Download</button>
+<button type="button" (click)="todos.reload()">Refresh</button>
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <input type="text" name="name" formControlName="label" placeholder="search" />
+  <button type="submit">Add</button>
+</form>
+
+@if (todos.isLoading()) {
+<p>Loading...</p>
+} @if (todos.error()) {
+<p class="error">Error loading todos: {{ todos.error()?.message | json }}</p>
+<button (click)="todos.reload()">Try Again</button>
+} @if (!todos.isLoading() && !todos.error()) {
+<ul>
+  @for ( todo of todos.value(); track $index) {
+  <li>
+    <a [routerLink]="[todo.id]">
+      {{ todo.id }}
+      {{ todo.label }}
+    </a>
+  </li>
+  }
+</ul>
+}
