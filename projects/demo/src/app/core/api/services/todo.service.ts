@@ -1,7 +1,7 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EnvironmentService } from '../../services/environment.service';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CreateTodo, Todo } from '../types/todo.type';
 
 @Injectable({

@@ -83,7 +83,7 @@ export function randomLorem(wordCount = 3): GeneratorFunction<string> {
     'aliqua',
   ];
   return () => {
-    let result = [];
+    const result = [];
     for (let i = 0; i < wordCount; i++) {
       const word = loremWords[Math.floor(Math.random() * loremWords.length)];
       result.push(word);

@@ -29,6 +29,16 @@
           "options": {
             "tsConfig": "projects/ngx-mock-interceptor/tsconfig.spec.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-mock-interceptor/**/*.ts",
+              "projects/ngx-mock-interceptor/**/*.html"
+            ],
+            "eslintConfig": "projects/ngx-mock-interceptor/eslint.config.js"
+          }
         }
       }
     },
@@ -119,6 +129,16 @@
             "styles": [
               "projects/demo/src/styles.scss"
             ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/demo/**/*.ts",
+              "projects/demo/**/*.html"
+            ],
+            "eslintConfig": "projects/demo/eslint.config.js"
           }
         }
       }

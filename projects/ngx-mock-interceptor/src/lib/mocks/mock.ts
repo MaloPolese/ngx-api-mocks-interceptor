@@ -91,9 +91,9 @@ class MocksImpl<T extends object> implements MocksRef<T> {
   }
 }
 
-export type MocksOptions = {
+export interface MocksOptions {
   count: number;
-};
+}
 
 export function mocks<T extends object>(
   definition: MockDefinition<T>,

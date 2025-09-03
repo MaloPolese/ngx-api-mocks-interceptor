@@ -1,12 +1,11 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TodoService } from '../../core/api/services/todo.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateTodo, Todo } from '../../core/api/types/todo.type';
+import { CreateTodo } from '../../core/api/types/todo.type';
 import { saveAs } from 'file-saver';
-import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-todos',

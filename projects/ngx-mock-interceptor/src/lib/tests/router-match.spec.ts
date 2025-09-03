@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import { HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { match } from '../router/router-match';
 import { createRouteCounter } from '../router/router-counter';

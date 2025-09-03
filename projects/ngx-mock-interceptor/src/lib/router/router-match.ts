@@ -14,6 +14,7 @@ export type CountPattern =
 
 export interface CountBasedResponse<T> {
   count: CountPattern;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   response: (req: HttpRequest<any>, params: T) => HttpResponse<unknown>;
 }
 
@@ -28,9 +29,7 @@ type ExtractParamNames<S extends string> = S extends `${string}:${infer Param}/$
   ? Param
   : never;
 
-type ParamsFromPattern<S extends string> = {
-  [K in ExtractParamNames<S>]: string;
-};
+type ParamsFromPattern<S extends string> = Record<ExtractParamNames<S>, string>;
 
 export type MockRouterMatchOptions = {
   delay?: MockOptionsDelay;
@@ -41,7 +40,7 @@ export type MockRouterMatchOptions = {
       counter?: undefined;
     }
   | {
-      responses: CountBasedResponse<any>[];
+      responses: CountBasedResponse<unknown>[];
       counter: RouteCounterRef;
     }
 );
@@ -58,7 +57,7 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
   constructor(
     private fullPattern: string,
     private method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH',
-    private handler: (req: HttpRequest<any>, params: ParamsFromPattern<string>) => MockResponseType<unknown>,
+    private handler: (req: HttpRequest<unknown>, params: ParamsFromPattern<string>) => MockResponseType<unknown>,
     private options?: MockRouterMatchOptions & MatchConfig
   ) {}
 
@@ -96,7 +95,7 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
       this.options.counter.increment();
     }
 
-    let handlerFn =
+    const handlerFn =
       this.options?.responses?.find((response) =>
         this.matchesPattern(this.options?.counter?.get() ?? 0, response.count)
       )?.response || this.handler;
@@ -146,7 +145,7 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
     );
   }
 
-  private isHttpEvent(event: any): event is HttpEvent<unknown> {
+  private isHttpEvent(event: HttpEvent<unknown>): event is HttpEvent<unknown> {
     return event && typeof event.type === 'number';
   }
 
@@ -285,7 +284,7 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
 export function match<P extends string>(
   fullPattern: P,
   method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH',
-  handler: (req: HttpRequest<any>, params: ParamsFromPattern<P>) => MockResponseType<unknown>,
+  handler: (req: HttpRequest<unknown>, params: ParamsFromPattern<P>) => MockResponseType<unknown>,
   options?: MockRouterMatchOptions & MatchConfig
 ): MockRouterMatchRef {
   return new MockRouterMatchImpl(fullPattern, method, handler, options);

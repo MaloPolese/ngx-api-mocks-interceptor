@@ -7,35 +7,22 @@ export type MockResponseType<T> =
   | HttpEvent<T>[] // Array of events (for progress)
   | Observable<HttpEvent<T>>;
 
-type ExtractParamNames<S extends string> = S extends `${string}:${infer Param}/${infer Rest}`
-  ? Param | ExtractParamNames<`/${Rest}`>
-  : S extends `${string}:${infer Param}`
-  ? Param
-  : never;
-
-type ParamsFromPattern<S extends string> = {
-  [K in ExtractParamNames<S>]: string;
-};
-
 export type MockOptionsDelay = number | { min: number; max: number };
 
 export type PathMatchOptions = 'full' | 'prefix';
 
-export type MockRouterConfiguration = {
+export interface MockRouterConfiguration {
   routes: MockRouterMatchRef[];
   delay?: MockOptionsDelay;
   pathMatch?: PathMatchOptions;
   skipAll?: boolean;
   onNoMatch?: () => Observable<HttpEvent<unknown>>;
-};
+}
 
 export interface MatchConfig {
-  queryParams?: {
-    [key: string]: string | RegExp;
-  };
-  headers?: {
-    [key: string]: string | RegExp;
-  };
+  queryParams?: Record<string, string | RegExp>;
+  headers?: Record<string, string | RegExp>;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   body?: any | ((body: any) => boolean);
 }
 

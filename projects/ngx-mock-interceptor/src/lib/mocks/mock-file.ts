@@ -6,7 +6,7 @@ import {
   HttpProgressEvent,
   HttpHeaders,
 } from '@angular/common/http';
-import { Observable, from, throwError, defer, concatMap, of, tap } from 'rxjs';
+import { Observable, from, throwError, defer, concatMap } from 'rxjs';
 
 export interface MockFileOptions {
   path: string;
@@ -35,7 +35,7 @@ export function createFileMockResponse(options: MockFileOptions): Observable<Htt
 
         return new Observable<HttpEvent<unknown>>((observer) => {
           let loadedBytes = 0;
-          let chunks: Uint8Array[] = [];
+          const chunks: Uint8Array[] = [];
 
           function readChunk() {
             reader?.read().then(

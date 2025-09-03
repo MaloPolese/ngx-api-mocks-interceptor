@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpRequest, HttpResponse, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { mockRouter, MockRouterConfiguration, MockRouterRef } from '../router/mock-router';
+import { mockRouter, MockRouterConfiguration } from '../router/mock-router';
 import { match } from '../router/router-match';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,7 +15,7 @@ describe('MockRouter', () => {
       routes: [],
     };
 
-    handler = (req) => of(new HttpResponse());
+    handler = () => of(new HttpResponse());
   });
 
   describe('Route Configuration', () => {

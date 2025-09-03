@@ -1,8 +1,6 @@
 import {
   HttpEvent,
-  HttpEventType,
   HttpHandlerFn,
-  HttpProgressEvent,
   HttpRequest,
   HttpResponse,
   HttpStatusCode,

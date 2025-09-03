@@ -9,7 +9,8 @@
     "test": "ng test ngx-mock-interceptor --watch=false --browsers ChromeHeadless",
     "test:watch": "ng test ngx-mock-interceptor --browsers ChromeHeadless",
     "prepare": "husky install",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "lint": "ng lint"
   },
   "prettier": {
     "overrides": [
@@ -35,15 +36,20 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "20.2.0",
     "@angular/build": "^20.1.3",
     "@angular/cli": "^20.1.3",
     "@angular/compiler-cli": "^20.1.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.33.0",
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "20.2.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
     "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
@@ -52,7 +58,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^20.1.0",
-    "typescript": "~5.8.2"
+    "typescript": "~5.8.2",
+    "typescript-eslint": "8.40.0"
   },
   "config": {
     "commitizen": {
