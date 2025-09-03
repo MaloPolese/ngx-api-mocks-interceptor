@@ -1,59 +1,184 @@
 # NgxMockInterceptor
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+A powerful HTTP mock interceptor for Angular applications that helps you simulate API responses during development and testing.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- 🚀 Easy to set up and use
+- 🎯 Path matching with parameters support
+- 📝 Query parameters and headers matching
+- ⏱️ Configurable response delays
+- 🔄 Counter-based responses
+- 🎮 Full control over mock responses
+- 📦 Mock data factory
+- 🔄 Progress events simulation
+- 📁 File download simulation
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Installation
 
 ```bash
-ng generate --help
+pnpm add ngx-mock-interceptor
 ```
 
-## Building
+## Quick Start
 
-To build the project run:
+1. Import the MockInterceptor in your app.config.ts:
 
-```bash
-ng build
+```typescript
+import { mockInterceptor } from "ngx-mock-interceptor";
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(withInterceptors([mockInterceptor]))],
+};
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+2. Create your mock data using the factory:
 
-## Running unit tests
+```typescript
+import { autoIncrement, boolean, mocks, randomLorem } from "ngx-mock-interceptor";
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+interface Todo {
+  id: number;
+  label: string;
+  description: string;
+  completed: boolean;
+  options: {
+    id: number;
+    name: string;
+  };
+}
 
-```bash
-ng test
+// Create mock data factory
+export const todosMock = mocks<Todo>(
+  {
+    id: autoIncrement(1),
+    label: randomLorem(2),
+    description: randomLorem(6),
+    completed: boolean(0.3),
+    options: {
+      id: autoIncrement(1),
+      name: randomLorem(),
+    },
+  },
+  {
+    count: 10, // Generate 10 items
+  }
+);
 ```
 
-## Running end-to-end tests
+3. Configure your mock interceptor:
 
-For end-to-end (e2e) testing, run:
+```typescript
+import { createRouteCounter, match, mockRouter, createFileMockResponse } from "ngx-mock-interceptor";
 
-```bash
-ng e2e
+export function mockInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  const getItemCounter = createRouteCounter();
+
+  return mockRouter(req, next, {
+    delay: 1000, // Global delay
+    pathMatch: "full",
+    routes: [
+      // Basic GET with counter-based responses
+      match(
+        "/api/todos",
+        "GET",
+        () =>
+          new HttpResponse({
+            status: 200,
+            body: todosMock.value,
+          }),
+        {
+          delay: 800,
+          counter: getItemCounter,
+          responses: [
+            {
+              count: "2n", // Every second request
+              response: () =>
+                new HttpResponse({
+                  status: 429,
+                  body: { error: "Rate limited" },
+                }),
+            },
+            {
+              count: ">5", // After 5 requests
+              response: () =>
+                new HttpResponse({
+                  status: 503,
+                  body: { error: "Service degraded" },
+                }),
+            },
+          ],
+        }
+      ),
+
+      // GET with path parameters
+      match("/api/todos/:id", "GET", (_, params) => {
+        const todo = todosMock.get((todo) => todo.id === +params.id);
+        return new HttpResponse({ status: 200, body: todo });
+      }),
+
+      // POST with request body
+      match(
+        "/api/todos",
+        "POST",
+        (req: HttpRequest<Partial<Todo>>) =>
+          new HttpResponse({
+            status: 201,
+            body: todosMock.add(req.body!),
+          })
+      ),
+
+      // File download simulation
+      match("/api/todos/download", "GET", () =>
+        createFileMockResponse({
+          path: "/mocks/example.txt",
+          filename: "todos.txt",
+          contentType: "text/plain",
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+          chunkDelay: 200,
+        })
+      ),
+
+      // Upload progress simulation
+      match("/api/upload", "POST", () => [
+        {
+          type: HttpEventType.UploadProgress,
+          loaded: 0,
+          total: 100,
+        },
+        {
+          type: HttpEventType.UploadProgress,
+          loaded: 50,
+          total: 100,
+        },
+        new HttpResponse({
+          status: 200,
+          body: { message: "Upload complete" },
+        }),
+      ]),
+    ],
+    // Handle unmatched routes
+    onNoMatch: () =>
+      of(
+        new HttpResponse({
+          status: 404,
+          body: { error: "Not Found" },
+        })
+      ),
+  });
+}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Documentation
 
-## Additional Resources
+For detailed documentation and examples, visit our [Wiki](../../wiki).
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
