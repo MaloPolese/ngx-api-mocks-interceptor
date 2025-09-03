@@ -1,0 +1,13 @@
+feature:
+  - 'feature/*'
+  - 'feat/*'
+fix:
+  - 'fix/*'
+  - 'bugfix/*'
+chore:
+  - 'chore/*'
+maintenance:
+  - 'maintenance/*'
+dependencies:
+  - 'deps/*'
+  - 'dependencies/*'
