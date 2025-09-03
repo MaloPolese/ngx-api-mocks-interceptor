@@ -6,7 +6,10 @@
     "start": "ng serve demo",
     "build": "ng build ngx-mock-interceptor",
     "watch": "ng build ngx-mock-interceptor --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test ngx-mock-interceptor --watch=false --browsers ChromeHeadless",
+    "test:watch": "ng test ngx-mock-interceptor --browsers ChromeHeadless",
+    "prepare": "husky install",
+    "commit": "git-cz"
   },
   "prettier": {
     "overrides": [
@@ -35,8 +38,13 @@
     "@angular/build": "^20.1.3",
     "@angular/cli": "^20.1.3",
     "@angular/compiler-cli": "^20.1.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~5.1.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -44,6 +52,11 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^20.1.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.8.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
