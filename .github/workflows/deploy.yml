@@ -48,6 +48,6 @@ jobs:
       run: pnpm run build
 
     - name: Publish to NPM
-      run: cd dist/ngx-mock-interceptor && pnpm publish
+      run: cd dist/ngx-mock-interceptor && pnpm publish --no-git-checks
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
