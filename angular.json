@@ -6,20 +6,20 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-mock-interceptor": {
+    "ngx-api-mocks-interceptor": {
       "projectType": "library",
-      "root": "projects/ngx-mock-interceptor",
-      "sourceRoot": "projects/ngx-mock-interceptor/src",
+      "root": "projects/ngx-api-mocks-interceptor",
+      "sourceRoot": "projects/ngx-api-mocks-interceptor/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/ngx-mock-interceptor/tsconfig.lib.prod.json"
+              "tsConfig": "projects/ngx-api-mocks-interceptor/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/ngx-mock-interceptor/tsconfig.lib.json"
+              "tsConfig": "projects/ngx-api-mocks-interceptor/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,17 +27,17 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/ngx-mock-interceptor/tsconfig.spec.json"
+            "tsConfig": "projects/ngx-api-mocks-interceptor/tsconfig.spec.json"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/ngx-mock-interceptor/**/*.ts",
-              "projects/ngx-mock-interceptor/**/*.html"
+              "projects/ngx-api-mocks-interceptor/**/*.ts",
+              "projects/ngx-api-mocks-interceptor/**/*.html"
             ],
-            "eslintConfig": "projects/ngx-mock-interceptor/eslint.config.js"
+            "eslintConfig": "projects/ngx-api-mocks-interceptor/eslint.config.js"
           }
         }
       }
@@ -57,9 +57,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "projects/demo/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/demo/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -68,9 +66,7 @@
                 "input": "projects/demo/public"
               }
             ],
-            "styles": [
-              "projects/demo/src/styles.scss"
-            ]
+            "styles": ["projects/demo/src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -114,10 +110,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "projects/demo/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -126,18 +119,13 @@
                 "input": "projects/demo/public"
               }
             ],
-            "styles": [
-              "projects/demo/src/styles.scss"
-            ]
+            "styles": ["projects/demo/src/styles.scss"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "projects/demo/**/*.ts",
-              "projects/demo/**/*.html"
-            ],
+            "lintFilePatterns": ["projects/demo/**/*.ts", "projects/demo/**/*.html"],
             "eslintConfig": "projects/demo/eslint.config.js"
           }
         }

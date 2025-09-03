@@ -1,12 +1,6 @@
-import {
-  HttpEvent,
-  HttpHandlerFn,
-  HttpRequest,
-  HttpResponse,
-  HttpStatusCode,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { createFileMockResponse, createRouteCounter, match, mockRouter } from 'ngx-mock-interceptor';
+import { createFileMockResponse, createRouteCounter, match, mockRouter } from 'ngx-api-mocks-interceptor';
 import { EnvironmentService } from '../services/environment.service';
 import { inject } from '@angular/core';
 import { todosMock } from '../api/mocks/todo.mock';

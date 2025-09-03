@@ -1,4 +1,4 @@
-import { autoIncrement, boolean, mocks, randomLorem } from 'ngx-mock-interceptor';
+import { autoIncrement, boolean, mocks, randomLorem } from 'ngx-api-mocks-interceptor';
 import { Todo } from '../types/todo.type';
 
 export const todosMock = mocks<Todo>(

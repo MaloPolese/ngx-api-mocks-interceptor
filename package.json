@@ -1,13 +1,28 @@
 {
-  "name": "ngx-mock-interceptor",
+  "name": "@malopolese/ngx-api-mocks-interceptor",
   "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaloPolese/ngx-api-mocks-interceptor.git"
+  },
+  "keywords": [
+    "angular",
+    "interceptor",
+    "mocks",
+    "mocking"
+  ],
+  "author": "malopolese",
+  "bugs": {
+    "url": "https://github.com/MaloPolese/ngx-api-mocks-interceptor/issues"
+  },
+  "homepage": "https://github.com/MaloPolese/ngx-api-mocks-interceptor#readme",
   "scripts": {
     "ng": "ng",
     "start": "ng serve demo",
-    "build": "ng build ngx-mock-interceptor",
-    "watch": "ng build ngx-mock-interceptor --watch --configuration development",
-    "test": "ng test ngx-mock-interceptor --watch=false --browsers ChromeHeadless",
-    "test:watch": "ng test ngx-mock-interceptor --browsers ChromeHeadless",
+    "build": "ng build ngx-api-mocks-interceptor",
+    "watch": "ng build ngx-api-mocks-interceptor --watch --configuration development",
+    "test": "ng test ngx-api-mocks-interceptor --watch=false --browsers ChromeHeadless",
+    "test:watch": "ng test ngx-api-mocks-interceptor --browsers ChromeHeadless",
     "prepare": "husky install",
     "commit": "git-cz",
     "lint": "ng lint"

@@ -41,13 +41,13 @@ jobs:
     - name: Update version
       run: |
         VERSION=${GITHUB_REF#refs/tags/v}
-        cd projects/ngx-mock-interceptor
+        cd projects/ngx-api-mocks-interceptor
         pnpm version $VERSION --no-git-tag-version
 
     - name: Build
       run: pnpm run build
 
     - name: Publish to NPM
-      run: cd dist/ngx-mock-interceptor && pnpm publish --no-git-checks
+      run: cd dist/ngx-api-mocks-interceptor && pnpm publish --no-git-checks
       env:
         NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

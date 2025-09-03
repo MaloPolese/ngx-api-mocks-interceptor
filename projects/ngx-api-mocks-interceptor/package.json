@@ -1,5 +1,5 @@
 {
-  "name": "ngx-mock-interceptor",
+  "name": "ngx-api-mocks-interceptor",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^20.1.0",

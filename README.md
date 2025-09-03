@@ -17,7 +17,7 @@ A powerful HTTP mock interceptor for Angular applications that helps you simulat
 ## Installation
 
 ```bash
-pnpm add ngx-mock-interceptor
+pnpm add ngx-api-mocks-interceptor
 ```
 
 ## Quick Start
@@ -25,7 +25,7 @@ pnpm add ngx-mock-interceptor
 1. Import the MockInterceptor in your app.config.ts:
 
 ```typescript
-import { mockInterceptor } from "ngx-mock-interceptor";
+import { mockInterceptor } from "ngx-api-mocks-interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [provideHttpClient(withInterceptors([mockInterceptor]))],
@@ -35,7 +35,7 @@ export const appConfig: ApplicationConfig = {
 2. Create your mock data using the factory:
 
 ```typescript
-import { autoIncrement, boolean, mocks, randomLorem } from "ngx-mock-interceptor";
+import { autoIncrement, boolean, mocks, randomLorem } from "ngx-api-mocks-interceptor";
 
 interface Todo {
   id: number;
@@ -69,7 +69,7 @@ export const todosMock = mocks<Todo>(
 3. Configure your mock interceptor:
 
 ```typescript
-import { createRouteCounter, match, mockRouter, createFileMockResponse } from "ngx-mock-interceptor";
+import { createRouteCounter, match, mockRouter, createFileMockResponse } from "ngx-api-mocks-interceptor";
 
 export function mockInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const getItemCounter = createRouteCounter();

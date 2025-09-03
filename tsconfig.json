@@ -8,9 +8,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "paths": {
-      "ngx-mock-interceptor": [
-        "./dist/ngx-mock-interceptor"
-      ]
+      "ngx-api-mocks-interceptor": ["./dist/ngx-api-mocks-interceptor"]
     },
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
@@ -30,10 +28,10 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/ngx-mock-interceptor/tsconfig.lib.json"
+      "path": "./projects/ngx-api-mocks-interceptor/tsconfig.lib.json"
     },
     {
-      "path": "./projects/ngx-mock-interceptor/tsconfig.spec.json"
+      "path": "./projects/ngx-api-mocks-interceptor/tsconfig.spec.json"
     },
     {
       "path": "./projects/demo/tsconfig.app.json"
