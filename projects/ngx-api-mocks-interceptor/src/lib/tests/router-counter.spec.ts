@@ -1,5 +1,3 @@
- 
-
 import { createRouteCounter, RouteCounterRef } from '../router/router-counter';
 
 describe('RouterCounter', () => {

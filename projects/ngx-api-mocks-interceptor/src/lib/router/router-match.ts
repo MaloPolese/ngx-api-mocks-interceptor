@@ -45,6 +45,10 @@ export type MockRouterMatchOptions = {
     }
 );
 
+import { effect, inject } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 class MockRouterMatchImpl implements MockRouterMatchRef {
   private _parmas = {};
   get parmas(): Record<string, string> {
@@ -53,6 +57,14 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
   set parmas(value: Record<string, string>) {
     this._parmas = value;
   }
+
+  private readonly router = inject(Router);
+  navigationEvent = toSignal(this.router.events);
+  navigationEventEffect = effect(() => {
+    if (this.options?.counter && this.navigationEvent() instanceof NavigationEnd) {
+      this.options.counter.reset();
+    }
+  });
 
   constructor(
     private fullPattern: string,

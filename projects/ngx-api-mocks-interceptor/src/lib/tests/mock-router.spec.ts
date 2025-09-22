@@ -3,12 +3,19 @@ import { mockRouter, MockRouterConfiguration } from '../router/mock-router';
 import { match } from '../router/router-match';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import 'zone.js';
 
 describe('MockRouter', () => {
   let routerConfig: MockRouterConfiguration;
   let handler: (req: HttpRequest<unknown>) => Observable<HttpEvent<unknown>>;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [Router],
+    });
+
     routerConfig = {
       pathMatch: 'prefix',
       skipAll: false,
@@ -30,24 +37,30 @@ describe('MockRouter', () => {
     });
 
     it('should add routes', () => {
-      const route = match('/api/test', 'GET', () => new HttpResponse());
-      routerConfig.routes.push(route);
-      expect(routerConfig.routes.length).toBe(1);
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => new HttpResponse());
+        routerConfig.routes.push(route);
+        expect(routerConfig.routes.length).toBe(1);
+      });
     });
 
     it('should clear routes', () => {
-      const route = match('/api/test', 'GET', () => new HttpResponse());
-      routerConfig.routes.push(route);
-      routerConfig.routes = [];
-      expect(routerConfig.routes.length).toBe(0);
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => new HttpResponse());
+        routerConfig.routes.push(route);
+        routerConfig.routes = [];
+        expect(routerConfig.routes.length).toBe(0);
+      });
     });
   });
 
   describe('Request Handling', () => {
     it('should match and resolve request', (done) => {
       const expectedResponse = new HttpResponse({ body: 'test' });
-      const route = match('/api/test', 'GET', () => expectedResponse);
-      routerConfig.routes.push(route);
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => expectedResponse);
+        routerConfig.routes.push(route);
+      });
 
       const request = new HttpRequest('GET', '/api/test');
       mockRouter(request, handler, routerConfig).subscribe((response) => {
@@ -72,9 +85,11 @@ describe('MockRouter', () => {
     it('should skip all requests when skipAll is true', (done) => {
       routerConfig.skipAll = true;
 
-      const route = match('/api/test', 'GET', () => new HttpResponse());
-      routerConfig.routes.push(route);
-      routerConfig.onNoMatch = () => of(new HttpResponse({ status: 404 }));
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => new HttpResponse());
+        routerConfig.routes.push(route);
+        routerConfig.onNoMatch = () => of(new HttpResponse({ status: 404 }));
+      });
 
       const request = new HttpRequest('GET', '/api/test');
       mockRouter(request, handler, routerConfig).subscribe({
@@ -91,8 +106,10 @@ describe('MockRouter', () => {
       routerConfig.pathMatch = 'full';
       routerConfig.onNoMatch = () => of(new HttpResponse({ status: 404 }));
 
-      const route = match('/api/test', 'GET', () => new HttpResponse({ body: 'matched' }));
-      routerConfig.routes.push(route);
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => new HttpResponse({ body: 'matched' }));
+        routerConfig.routes.push(route);
+      });
 
       const request = new HttpRequest('GET', '/api/test/extra');
       mockRouter(request, handler, routerConfig).subscribe({
@@ -106,8 +123,10 @@ describe('MockRouter', () => {
     it('should match prefix paths when pathMatch is prefix', (done) => {
       routerConfig.pathMatch = 'prefix';
 
-      const route = match('/api/test', 'GET', () => new HttpResponse({ body: 'matched' }));
-      routerConfig.routes.push(route);
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => new HttpResponse({ body: 'matched' }));
+        routerConfig.routes.push(route);
+      });
 
       const request = new HttpRequest('GET', '/api/test/extra');
       mockRouter(request, handler, routerConfig).subscribe((response) => {
@@ -135,9 +154,10 @@ describe('MockRouter', () => {
 
   describe('Error Handling', () => {
     it('should handle errors in route handlers', (done) => {
-      const route = match('/api/test', 'GET', () => new HttpResponse({ status: 404, body: 'Test error' }));
-
-      routerConfig.routes.push(route);
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => new HttpResponse({ status: 404, body: 'Test error' }));
+        routerConfig.routes.push(route);
+      });
 
       const request = new HttpRequest('GET', '/api/test');
       mockRouter(request, handler, routerConfig).subscribe({
@@ -149,15 +169,16 @@ describe('MockRouter', () => {
     });
 
     it('should handle async errors in route handlers', (done) => {
-      const route = match('/api/test', 'GET', () => {
-        return of(new HttpResponse()).pipe(
-          map(() => {
-            throw new Error('Async error');
-          })
-        );
+      TestBed.runInInjectionContext(() => {
+        const route = match('/api/test', 'GET', () => {
+          return of(new HttpResponse()).pipe(
+            map(() => {
+              throw new Error('Async error');
+            })
+          );
+        });
+        routerConfig.routes.push(route);
       });
-
-      routerConfig.routes.push(route);
 
       const request = new HttpRequest('GET', '/api/test');
       mockRouter(request, handler, routerConfig).subscribe({

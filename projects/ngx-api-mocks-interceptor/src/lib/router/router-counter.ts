@@ -13,5 +13,6 @@ export const createRouteCounter = (): RouteCounterRef => {
 export interface RouteCounterRef {
   increment(): number;
   get(): number;
+  // Call after a navigation change to reset the counter
   reset(): void;
 }
