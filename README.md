@@ -5,7 +5,7 @@ A powerful HTTP mock interceptor for Angular applications that helps you simulat
 ## Features
 
 - 🚀 Easy to set up and use
-- 🎯 Path matching with parameters support
+- 🎯 Path matching with typed parameters support
 - 📝 Query parameters and headers matching
 - ⏱️ Configurable response delays
 - 🔄 Counter-based responses
@@ -22,10 +22,18 @@ pnpm add ngx-api-mocks-interceptor
 
 ## Quick Start
 
-1. Import the MockInterceptor in your app.config.ts:
+1. Create and Import the interceptor in your app.config.ts:
+
+```bash
+ng g interceptor mockInterceptor
+```
 
 ```typescript
-import { mockInterceptor } from "ngx-api-mocks-interceptor";
+import { HttpInterceptorFn } from "@angular/common/http";
+
+export const mockInterceptor: HttpInterceptorFn = (req, next) => {
+  return next(req);
+};
 
 export const appConfig: ApplicationConfig = {
   providers: [provideHttpClient(withInterceptors([mockInterceptor]))],
@@ -69,16 +77,45 @@ export const todosMock = mocks<Todo>(
 3. Configure your mock interceptor:
 
 ```typescript
+import { match, mockRouter } from "ngx-api-mocks-interceptor";
+
+export const mockInterceptor: HttpInterceptorFn = (req, next) => {
+  return mockRouter(req, next, {
+    delay: 1000,
+    pathMatch: "full",
+    routes: [
+      match("/api/todos/", "GET", () => new HttpResponse({ status: 200, body: todosMock.value })),
+      match("/api/todos/:id", "GET", (_, params) => {
+        const todo = todosMock.get((todo) => todo.id === +params.id);
+        return new HttpResponse({ status: 200, body: todo });
+      }),
+      match(
+        "/api/todos",
+        "POST",
+        (req: HttpRequest<Partial<Todo>>) =>
+          new HttpResponse({
+            status: 201,
+            body: todosMock.add(req.body!),
+          })
+      ),
+    ],
+    // Handle unmatched routes
+    onNoMatch: () => of(new HttpResponse({ status: 404, body: { error: "Not Found" } })),
+  });
+};
+```
+
+4. Advenced configuration:
+
+```typescript
 import { createRouteCounter, match, mockRouter, createFileMockResponse } from "ngx-api-mocks-interceptor";
 
-export function mockInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  const getItemCounter = createRouteCounter();
-
+const getItemCounter = createRouteCounter();
+export const mockInterceptor: HttpInterceptorFn = (req, next) => {
   return mockRouter(req, next, {
     delay: 1000, // Global delay
     pathMatch: "full",
     routes: [
-      // Basic GET with counter-based responses
       match(
         "/api/todos",
         "GET",
@@ -168,7 +205,7 @@ export function mockInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
         })
       ),
   });
-}
+};
 ```
 
 ## Documentation
