@@ -76,7 +76,7 @@ describe('MockRouter', () => {
 
       mockRouter(request, handler, routerConfig).subscribe({
         error: (err) => {
-          expect(err.status).toBe(404);
+          expect(err.status ?? err?.cause?.status).toBe(404);
           done();
         },
       });
@@ -94,7 +94,7 @@ describe('MockRouter', () => {
       const request = new HttpRequest('GET', '/api/test');
       mockRouter(request, handler, routerConfig).subscribe({
         error: (err) => {
-          expect(err.status).toBe(404);
+          expect(err.status ?? err?.cause?.status).toBe(404);
           done();
         },
       });
@@ -114,7 +114,7 @@ describe('MockRouter', () => {
       const request = new HttpRequest('GET', '/api/test/extra');
       mockRouter(request, handler, routerConfig).subscribe({
         error: (err) => {
-          expect(err.status).toBe(404);
+          expect(err.status ?? err?.cause?.status).toBe(404);
           done();
         },
       });

@@ -46,26 +46,28 @@ class MockRouterImpl implements MockRouterRef {
           return route.resolve(this);
         }
       }
+      console.warn(`[MOCK-INTERCEPTOR] unresolve ${this.req.method} ${this.req.url}`);
     }
 
     if (this.mockRouterConfiguration.onNoMatch) {
       return this.mockRouterConfiguration.onNoMatch().pipe(
         switchMap((response) => {
-          if (response instanceof HttpResponse) {
-            return response.ok
-              ? of(response)
-              : throwError(
-                  () =>
-                    new HttpErrorResponse({
-                      error: response.body,
-                      status: response.status,
-                      statusText: response.statusText,
-                      url: this.req.url || undefined,
-                      headers: response.headers,
-                    })
-                );
+          if (response instanceof HttpResponse && !response.ok) {
+            return throwError(
+              () =>
+                new Error(`HTTP Error: ${response.status} ${response.statusText} - url: ${this.req.url}`, {
+                  // Have to wrap HttpErrorResponse in Error because HttpErrorResponse is not an instance of Error
+                  // which causes issues in some error handling libraries (like rxResource api)
+                  cause: new HttpErrorResponse({
+                    error: response.body,
+                    status: response.status,
+                    statusText: response.statusText,
+                    url: this.req.url || undefined,
+                    headers: response.headers,
+                  }),
+                })
+            );
           }
-
           return of(response);
         })
       );

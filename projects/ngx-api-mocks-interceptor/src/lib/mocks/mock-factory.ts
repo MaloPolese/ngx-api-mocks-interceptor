@@ -1,10 +1,8 @@
-type GeneratorFunction<T> = () => T;
-
+export type GeneratorFunction<T> = () => T;
+export type GeneratorOrDefinition<T> = T extends object ? MockDefinition<T> : GeneratorFunction<T>;
 export type MockDefinition<T> = {
   [K in keyof T]: GeneratorOrDefinition<T[K]>;
 };
-
-type GeneratorOrDefinition<T> = GeneratorFunction<T> | MockDefinition<T>;
 
 export interface MockFactoryRef<T extends object> {
   generate(count: number, override?: Partial<T>[]): T[];
@@ -24,8 +22,10 @@ export class MocksFactoryImpl<T extends object> implements MockFactoryRef<T> {
 
   private generateMock(override?: Partial<T>): T {
     const item = {} as T;
+
     for (const key in this.definition) {
-      item[key] = this.generateValue(this.definition[key]);
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+      (item[key] as any) = this.generateValue(this.definition[key]);
     }
 
     if (override) {
@@ -41,7 +41,8 @@ export class MocksFactoryImpl<T extends object> implements MockFactoryRef<T> {
 
     const result = {} as V;
     for (const key in def) {
-      result[key] = this.generateValue(def[key]);
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+      (result[key as keyof V] as any) = this.generateValue(def[key] as GeneratorOrDefinition<any>);
     }
     return result;
   }
