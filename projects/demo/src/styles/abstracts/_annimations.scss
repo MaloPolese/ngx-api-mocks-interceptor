@@ -1,0 +1,104 @@
+@keyframes melted {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
+
+@keyframes arrow-up {
+  0%,
+  100% {
+    transform: translateY(2px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes rippleEffect {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(100);
+    opacity: 0;
+  }
+}
+
+@keyframes scacle {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes wave {
+  from {
+    transform: rotateZ(0deg) translate3d(0, 10%, 0) rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg) translate3d(0, 10%, 0) rotateZ(-360deg);
+  }
+}
+
+@keyframes small-wave {
+  from {
+    transform: rotateZ(0deg) translate3d(0, 0.5%, 0) rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg) translate3d(0, 0.5%, 0) rotateZ(-360deg);
+  }
+}
+
+@keyframes firstname-wave-1 {
+  0% {
+    clip-path: polygon(0 60%, 100% 70%, 100% 0, 0 0);
+  }
+  50% {
+    clip-path: polygon(0 80%, 100% 60%, 100% 0, 0 0);
+  }
+  100% {
+    clip-path: polygon(0 60%, 100% 70%, 100% 0, 0 0);
+  }
+}
+
+@keyframes firstname-wave-2 {
+  0% {
+    clip-path: polygon(0 55%, 100% 65%, 100% 0, 0 0);
+  }
+  50% {
+    clip-path: polygon(0 75%, 100% 55%, 100% 0, 0 0);
+  }
+  100% {
+    clip-path: polygon(0 55%, 100% 65%, 100% 0, 0 0);
+  }
+}
+
+@keyframes lastname-wave-1 {
+  0% {
+    clip-path: polygon(0 25%, 100% 35%, 100% 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 45%, 100% 25%, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 25%, 100% 35%, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes lastname-wave-2 {
+  0% {
+    clip-path: polygon(0 30%, 100% 40%, 100% 100%, 0 100%);
+  }
+  50% {
+    clip-path: polygon(0 50%, 100% 30%, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 30%, 100% 40%, 100% 100%, 0 100%);
+  }
+}

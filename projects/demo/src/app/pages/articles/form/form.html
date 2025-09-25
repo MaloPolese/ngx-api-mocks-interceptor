@@ -1,0 +1,54 @@
+<div class="form-container">
+  <header>
+    <h1>{{ isUpdate ? "Edit Article" : "Create New Article" }}</h1>
+  </header>
+
+  @if (isUpdate && article.isLoading()) {
+  <app-spinner />
+  } @else {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="article-form">
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" placeholder="Enter article title" />
+      @if (form.get('title')?.invalid && form.get('title')?.touched) {
+      <span class="error">Title is required (min 3 characters)</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Enter article description"
+        rows="3"
+      ></textarea>
+      @if (form.get('description')?.invalid && form.get('description')?.touched) {
+      <span class="error">Description is required</span>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="thumbnail">Thumbnail URL</label>
+      <input id="thumbnail" type="url" formControlName="thumbnail" placeholder="Enter thumbnail URL" />
+    </div>
+
+    <div class="form-field">
+      <label for="content">Content</label>
+      <textarea
+        id="content"
+        formControlName="content"
+        placeholder="Write your article content here..."
+        rows="10"
+      ></textarea>
+      @if (form.get('content')?.invalid && form.get('content')?.touched) {
+      <span class="error">Content is required</span>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary" [disabled]="form.invalid">{{ isUpdate ? "Update" : "Create" }}</button>
+    </div>
+  </form>
+  }
+</div>

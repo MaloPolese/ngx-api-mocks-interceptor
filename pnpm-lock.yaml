@@ -26,6 +26,9 @@ dependencies:
   file-saver:
     specifier: ^2.0.5
     version: 2.0.5
+  normalize.css:
+    specifier: ^8.0.1
+    version: 8.0.1
   rxjs:
     specifier: ~7.8.0
     version: 7.8.2
@@ -58,6 +61,9 @@ devDependencies:
   '@eslint/js':
     specifier: ^9.33.0
     version: 9.34.0
+  '@faker-js/faker':
+    specifier: ^10.0.0
+    version: 10.0.0
   '@types/file-saver':
     specifier: ^2.0.7
     version: 2.0.7
@@ -1505,6 +1511,11 @@ packages:
     dependencies:
       '@eslint/core': 0.15.2
       levn: 0.4.1
+    dev: true
+
+  /@faker-js/faker@10.0.0:
+    resolution: {integrity: sha512-UollFEUkVXutsaP+Vndjxar40Gs5JL2HeLcl8xO1QAjJgOdhc3OmBFWyEylS+RddWaaBiAzH+5/17PLQJwDiLw==}
+    engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
     dev: true
 
   /@humanfs/core@0.19.1:
@@ -5987,6 +5998,10 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /normalize.css@8.0.1:
+    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
+    dev: false
 
   /npm-bundled@4.0.0:
     resolution: {integrity: sha512-IxaQZDMsqfQ2Lz37VvyyEtKLe8FsRZuysmedy/N06TU1RyVppYKXrO4xIhR0F+7ubIBox6Q7nir6fQI3ej39iA==}

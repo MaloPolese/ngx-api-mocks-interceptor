@@ -1,0 +1,10 @@
+<article>
+  <header>
+    <h1>{{ article().title }}</h1>
+    <p>By {{ article().author?.firstName }} {{ article().author?.lastName }}</p>
+  </header>
+  <section>
+    <img [src]="article().thumbnail" [alt]="article().title" loading="lazy" />
+    <p>{{ article().description }}</p>
+  </section>
+</article>

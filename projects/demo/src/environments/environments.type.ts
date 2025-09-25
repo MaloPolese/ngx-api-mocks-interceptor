@@ -1,5 +1,5 @@
 export interface Environment {
   api: {
-    todo: string;
+    blog: string;
   };
 }

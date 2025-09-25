@@ -1,0 +1,26 @@
+<!-- <button type="button" (click)="download()">Download</button> -->
+<nav>
+  <input type="text" name="name" autocomplete="off" [formControl]="searchFormControl" placeholder="search" />
+</nav>
+
+@if (articles.isLoading()) {
+<app-spinner />
+} @if (articles.error()) {
+<div class="error">
+  <p>Error loading articles: {{ articles.error()?.message | json }}</p>
+  <button (click)="articles.reload()">Try Again</button>
+</div>
+} @if (!articles.isLoading() && !articles.error()) {
+<section class="articles">
+  <header>
+    <h2>Articles ({{ articles.value().length }})</h2>
+  </header>
+  <main>
+    @for ( article of articles.value(); track $index) {
+    <a [routerLink]="['/', 'article', article.id]">
+      <app-article [article]="article"></app-article>
+    </a>
+    }
+  </main>
+</section>
+}

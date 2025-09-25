@@ -1,0 +1,51 @@
+<header class="header">
+  <div class="header__container">
+    <div class="header__brand">
+      <h1 class="header__title">
+        <a routerLink="/">My Blog</a>
+      </h1>
+      <p class="header__subtitle">
+        A demo blog built for
+        <a href="https://github.com/MaloPolese/ngx-api-mocks-interceptor" target="_blank" rel="noopener noreferrer"
+          >ngx-api-mocks-interceptor</a
+        >
+      </p>
+    </div>
+    <div class="header__actions">
+      <a
+        routerLink="/article/form"
+        class="header__link"
+        routerLinkActive="header__link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >New Article</a
+      >
+    </div>
+  </div>
+</header>
+<main>
+  <section>
+    <router-outlet></router-outlet>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__content">
+      <div class="footer__section">
+        <h3 class="footer__title">About</h3>
+        <p>A demo blog showcasing the capabilities of ngx-api-mocks-interceptor for Angular applications.</p>
+      </div>
+      <div class="footer__section">
+        <h3 class="footer__title">Links</h3>
+        <ul class="footer__list">
+          <li><a href="https://github.com/MaloPolese/ngx-api-mocks-interceptor">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/ngx-api-mocks-interceptor">NPM</a></li>
+          <li><a href="https://github.com/MaloPolese/ngx-api-mocks-interceptor/issues">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2024 ngx-api-mocks-interceptor. Built with Angular.</p>
+    </div>
+  </div>
+</footer>

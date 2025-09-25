@@ -1,0 +1,11 @@
+body {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-font);
+
+  *::selection {
+    background-color: var(--color-accent-100);
+    color: var(--color-font-dark);
+  }
+}

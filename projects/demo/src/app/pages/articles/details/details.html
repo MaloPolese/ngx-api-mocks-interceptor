@@ -1,0 +1,43 @@
+@if (article.isLoading()) {
+<app-spinner />
+} @else if (article.error()) {
+<div class="error">
+  <p>Error loading article: {{ article.error()?.message }}</p>
+  <button (click)="article.reload()">Try Again</button>
+</div>
+} @else {
+<article class="article">
+  <header class="article__header">
+    <div class="article__actions">
+      <div class="article__meta">
+        <time>{{ article.value()?.createdAt | date : "mediumDate" }}</time>
+      </div>
+      <div class="article__buttons">
+        <a class="btn btn--edit" [routerLink]="['/', 'article', 'form', article.value()?.id]">Edit</a>
+        <button class="btn btn--delete" (click)="onDelete()" [disabled]="isDeleting()">
+          {{ isDeleting() ? "Deleting..." : "Delete" }}
+        </button>
+      </div>
+    </div>
+    <h1 class="article__title">{{ article.value()?.title }}</h1>
+    <p class="article__description">{{ article.value()?.description }}</p>
+  </header>
+
+  <main class="article__content">
+    <div class="article__image">
+      <img [src]="article.value()?.thumbnail" [alt]="article.value()?.title" />
+    </div>
+    <div class="article__text">
+      {{ article.value()?.content }}
+    </div>
+  </main>
+
+  <footer class="article__footer">
+    <div class="article__author">
+      <div class="article__author-info">
+        <strong>{{ article.value()?.author?.firstName }} {{ article.value()?.author?.lastName }}</strong>
+      </div>
+    </div>
+  </footer>
+</article>
+}

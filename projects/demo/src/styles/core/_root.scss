@@ -1,0 +1,13 @@
+@use "../abstracts/" as *;
+
+:root {
+  @each $color, $shade in $colors {
+    @each $prop, $value in $shade {
+      --color-#{$color}-#{$prop}: #{$value};
+    }
+  }
+
+  @each $variable, $value in $variables {
+    --var-#{$variable}: #{$value};
+  }
+}

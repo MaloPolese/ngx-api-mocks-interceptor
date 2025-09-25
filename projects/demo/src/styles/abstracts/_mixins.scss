@@ -1,0 +1,68 @@
+@use './medias' as *;
+@use './annimations' as *;
+
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin font-face($font-family, $url, $font-weight: 400, $font-style: normal) {
+  @font-face {
+    font-family: $font-family;
+    src: url('#{$url}.ttf') format('truetype');
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+}
+
+@mixin bp($key) {
+  @if map-has-key($breakpoints, $key) {
+    $value: map-get($breakpoints, $key);
+
+    @media screen and (min-width: $value) {
+      @content;
+    }
+  }
+}
+
+@mixin pseudo(
+  $loc: before,
+  $content: '',
+  $pos: absolute,
+  $top: 0,
+  $bottom: 0,
+  $left: 0,
+  $right: 0
+) {
+  position: relative;
+
+  &::#{$loc} {
+    content: $content;
+    position: $pos;
+    top: $top;
+    bottom: $bottom;
+    left: $left;
+    right: $right;
+    @content;
+  }
+}
+
+@mixin rainbow-bg {
+  background-color: var(--color-accent-100);
+  animation: rainbow-bg 5s linear infinite;
+  animation-timing-function: cubic-bezier(0.5, 0, 0, 1);
+}

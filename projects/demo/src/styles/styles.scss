@@ -1,0 +1,28 @@
+@use "normalize.css";
+@use "./abstracts";
+@use "./core";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: var(--color-paper-50);
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.spacer {
+  flex: 1 0 auto;
+}
