@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpRequest, HttpResponse, HttpEvent } from '@angular/common/http';
 import { mockRouter, MockRouterConfiguration } from '../router/mock-router';
 import { match } from '../router/router-match';
 import { Observable, of } from 'rxjs';
@@ -161,8 +161,8 @@ describe('MockRouter', () => {
 
       const request = new HttpRequest('GET', '/api/test');
       mockRouter(request, handler, routerConfig).subscribe({
-        error: (error: HttpErrorResponse) => {
-          expect(error.error).toBe('Test error');
+        error: (err) => {
+          expect(err.status ?? err?.cause?.error).toBe('Test error');
           done();
         },
       });

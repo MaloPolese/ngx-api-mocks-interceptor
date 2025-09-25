@@ -120,7 +120,11 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
         ? (handlerFn(mockRouter.req, this.parmas) as Observable<HttpEvent<unknown>>)
         : of(handlerFn(mockRouter.req, this.parmas) as HttpEvent<undefined>);
 
-    console.log(`[MOCK-INTERCEPTOR] resolve ${mockRouter.req.method} ${mockRouter.req.url} -> delay ${delayValue}ms`);
+    console.log(
+      `%c[MOCK-INTERCEPTOR] resolve ${mockRouter.req.method} ${mockRouter.req.url} -> delay ${delayValue}ms%c`,
+      'color: green; font-weight: bold;',
+      'color: black;'
+    );
 
     return $response.pipe(
       delay(delayValue),
@@ -138,12 +142,16 @@ class MockRouterMatchImpl implements MockRouterMatchRef {
             ? of(response)
             : throwError(
                 () =>
-                  new HttpErrorResponse({
-                    error: response.body,
-                    status: response.status,
-                    statusText: response.statusText,
-                    url: mockRouter.req.url || undefined,
-                    headers: response.headers,
+                  new Error(`HTTP Error: ${response.status} ${response.statusText} - url: ${mockRouter.req.url}`, {
+                    // Have to wrap HttpErrorResponse in Error because HttpErrorResponse is not an instance of Error
+                    // which causes issues in some error handling libraries (like rxResource api)
+                    cause: new HttpErrorResponse({
+                      error: response.body,
+                      status: response.status,
+                      statusText: response.statusText,
+                      url: mockRouter.req.url || undefined,
+                      headers: response.headers,
+                    }),
                   })
               );
         }
