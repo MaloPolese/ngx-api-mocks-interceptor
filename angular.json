@@ -82,6 +82,7 @@
                   "maximumError": "8kB"
                 }
               ],
+              "baseHref": "https://malopolese.github.io/ngx-api-mocks-interceptor/",
               "outputHashing": "all"
             },
             "development": {

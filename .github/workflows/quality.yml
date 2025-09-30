@@ -46,4 +46,4 @@ jobs:
       run: pnpm run test
 
     - name: Build
-      run: pnpm run build
+      run: pnpm run build ngx-api-mocks-interceptor
