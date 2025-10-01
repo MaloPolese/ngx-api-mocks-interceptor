@@ -2,6 +2,8 @@
 
 A powerful HTTP mock interceptor for Angular applications that helps you simulate API responses during development and testing.
 
+🔥 [Live Demo](https://malopolese.github.io/ngx-api-mocks-interceptor/)
+
 ## Features
 
 - 🚀 Easy to set up and use
@@ -17,7 +19,7 @@ A powerful HTTP mock interceptor for Angular applications that helps you simulat
 ## Installation
 
 ```bash
-pnpm add ngx-api-mocks-interceptor
+npm i ngx-api-mocks-interceptor
 ```
 
 ## Quick Start
@@ -44,6 +46,7 @@ export const appConfig: ApplicationConfig = {
 
 ```typescript
 import { autoIncrement, boolean, mocks, randomLorem } from "ngx-api-mocks-interceptor";
+import { faker } from "@faker-js/faker";
 
 interface Todo {
   id: number;
@@ -56,11 +59,11 @@ interface Todo {
   };
 }
 
-// Create mock data factory
+// Create several mocks with the `mocks` factory
 export const todosMock = mocks<Todo>(
   {
     id: autoIncrement(1),
-    label: randomLorem(2),
+    label: () => faker.lorem.words(3), // We can use faker or any other generator
     description: randomLorem(6),
     completed: boolean(0.3),
     options: {
@@ -72,6 +75,18 @@ export const todosMock = mocks<Todo>(
     count: 10, // Generate 10 items
   }
 );
+
+// Or a single mock with the `mock` factory
+export const todoMock = mock<Todo>({
+  id: autoIncrement(1),
+  label: () => faker.lorem.words(3),
+  description: randomLorem(6),
+  completed: boolean(0.3),
+  options: {
+    id: autoIncrement(1),
+    name: randomLorem(),
+  },
+});
 ```
 
 3. Configure your mock interceptor:
@@ -80,17 +95,19 @@ export const todosMock = mocks<Todo>(
 import { match, mockRouter } from "ngx-api-mocks-interceptor";
 
 export const mockInterceptor: HttpInterceptorFn = (req, next) => {
+  const endpoint = "http://localhost:3000/api/v1";
+
   return mockRouter(req, next, {
     delay: 1000,
     pathMatch: "full",
     routes: [
-      match("/api/todos/", "GET", () => new HttpResponse({ status: 200, body: todosMock.value })),
-      match("/api/todos/:id", "GET", (_, params) => {
+      match(`${endpoint}/api/todos/`, "GET", () => new HttpResponse({ status: 200, body: todosMock.value })),
+      match(`${endpoint}/api/todos/:id`, "GET", (_, params) => {
         const todo = todosMock.get((todo) => todo.id === +params.id);
         return new HttpResponse({ status: 200, body: todo });
       }),
       match(
-        "/api/todos",
+        `${endpoint}/api/todos`,
         "POST",
         (req: HttpRequest<Partial<Todo>>) =>
           new HttpResponse({
@@ -112,12 +129,14 @@ import { createRouteCounter, match, mockRouter, createFileMockResponse } from "n
 
 const getItemCounter = createRouteCounter();
 export const mockInterceptor: HttpInterceptorFn = (req, next) => {
+  const endpoint = "http://localhost:3000/api/v1";
+
   return mockRouter(req, next, {
     delay: 1000, // Global delay
     pathMatch: "full",
     routes: [
       match(
-        "/api/todos",
+        `${endpoint}/api/todos`,
         "GET",
         () =>
           new HttpResponse({
@@ -149,14 +168,14 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
       ),
 
       // GET with path parameters
-      match("/api/todos/:id", "GET", (_, params) => {
+      match(`${endpoint}/api/todos/:id`, "GET", (_, params) => {
         const todo = todosMock.get((todo) => todo.id === +params.id);
         return new HttpResponse({ status: 200, body: todo });
       }),
 
       // POST with request body
       match(
-        "/api/todos",
+        `${endpoint}/api/todos`,
         "POST",
         (req: HttpRequest<Partial<Todo>>) =>
           new HttpResponse({
@@ -166,7 +185,7 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
       ),
 
       // File download simulation
-      match("/api/todos/download", "GET", () =>
+      match(`${endpoint}/api/todos/download`, "GET", () =>
         createFileMockResponse({
           path: "/mocks/example.txt",
           filename: "todos.txt",
@@ -179,7 +198,7 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
       ),
 
       // Upload progress simulation
-      match("/api/upload", "POST", () => [
+      match(`${endpoint}/api/upload`, "POST", () => [
         {
           type: HttpEventType.UploadProgress,
           loaded: 0,
@@ -207,10 +226,6 @@ export const mockInterceptor: HttpInterceptorFn = (req, next) => {
   });
 };
 ```
-
-## Documentation
-
-For detailed documentation and examples, visit our [Wiki](../../wiki).
 
 ## Contributing
 
