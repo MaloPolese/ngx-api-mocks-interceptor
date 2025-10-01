@@ -20,7 +20,7 @@
     "ng": "ng",
     "start": "ng serve demo",
     "build": "ng build",
-    "build:lib": "ng build ngx-api-mocks-interceptor",
+    "build:lib": "ng build ngx-api-mocks-interceptor && cp README.md dist/ngx-api-mocks-interceptor/",
     "build:demo": "pnpm build:lib && ng build demo --configuration production",
     "watch": "ng build ngx-api-mocks-interceptor --watch --configuration development",
     "test": "ng test ngx-api-mocks-interceptor --watch=false --browsers ChromeHeadless",
