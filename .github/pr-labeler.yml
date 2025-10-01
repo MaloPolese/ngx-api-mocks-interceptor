@@ -1,13 +1,20 @@
 feature:
   - 'feature/*'
+  - 'feature-*'
   - 'feat/*'
+  - 'feat-*'
 fix:
   - 'fix/*'
+  - 'fix-*'
   - 'bugfix/*'
+  - 'bugfix-*'
 chore:
   - 'chore/*'
 maintenance:
   - 'maintenance/*'
+  - 'maintenance-*'
 dependencies:
   - 'deps/*'
+  - 'deps-*'
   - 'dependencies/*'
+  - 'dependencies-*'
