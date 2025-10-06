@@ -55,7 +55,7 @@ export const appConfig: ApplicationConfig = {
 2. Create your mock data using the factory:
 
 ```typescript
-import { autoIncrement, boolean, mocks, randomLorem } from "ngx-api-mocks-interceptor";
+import { autoIncrement, boolean, mocks, lorem, array, literal } from "ngx-api-mocks-interceptor";
 import { faker } from "@faker-js/faker";
 
 interface Todo {
@@ -63,10 +63,11 @@ interface Todo {
   label: string;
   description: string;
   completed: boolean;
+  status: 'OPEN' | 'CLOSE' | 'WAITING';
   options: {
     id: number;
     name: string;
-  };
+  }[];
 }
 
 // Create several mocks with the `mocks` factory
@@ -74,12 +75,13 @@ export const todosMock = mocks<Todo>(
   {
     id: autoIncrement(1),
     label: () => faker.lorem.words(3), // We can use faker or any other generator
-    description: randomLorem(6),
+    description: lorem(6),
     completed: boolean(0.3),
-    options: {
+    status: literal(['OPEN', 'CLOSE', 'WAITING'])
+    options: array({
       id: autoIncrement(1),
-      name: randomLorem(),
-    },
+      name: value('foo'),
+    }, {count: 2}),
   },
   {
     count: 10, // Generate 10 items
@@ -90,12 +92,13 @@ export const todosMock = mocks<Todo>(
 export const todoMock = mock<Todo>({
   id: autoIncrement(1),
   label: () => faker.lorem.words(3),
-  description: randomLorem(6),
+  description: lorem(6),
   completed: boolean(0.3),
-  options: {
+  status: literal(['OPEN', 'WAITING'])
+  options: array({
     id: autoIncrement(1),
-    name: randomLorem(),
-  },
+    name: value('foo'),
+  }, { min: 2, max: 5 }),
 });
 ```
 

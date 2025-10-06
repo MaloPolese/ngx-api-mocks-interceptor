@@ -1,5 +1,18 @@
+type ArrayOptions = { count: number; min?: never; max?: never } | { count?: never; min: number; max: number };
+
+interface ArrayGenerator<T> {
+  _type: 'array';
+  definition: GeneratorOrDefinition<T>;
+  options: ArrayOptions;
+}
+
 export type GeneratorFunction<T> = () => T;
-export type GeneratorOrDefinition<T> = T extends object ? MockDefinition<T> : GeneratorFunction<T>;
+export type GeneratorOrDefinition<T> = T extends (infer U)[]
+  ? ArrayGenerator<U>
+  : T extends object
+  ? MockDefinition<T>
+  : GeneratorFunction<T>;
+
 export type MockDefinition<T> = {
   [K in keyof T]: GeneratorOrDefinition<T[K]>;
 };
@@ -35,6 +48,22 @@ export class MocksFactoryImpl<T extends object> implements MockFactoryRef<T> {
   }
 
   private generateValue<V>(def: GeneratorOrDefinition<V>): V {
+    if (typeof def === 'object' && def !== null && '_type' in def && def._type === 'array') {
+      const arrayDef = def as ArrayGenerator<unknown>;
+      const result = [] as unknown[];
+
+      const length =
+        arrayDef.options.count !== undefined
+          ? arrayDef.options.count
+          : Math.floor(Math.random() * (arrayDef.options.max - arrayDef.options.min + 1)) + arrayDef.options.min;
+
+      for (let i = 0; i < length; i++) {
+        result.push(this.generateValue(arrayDef.definition));
+      }
+
+      return result as V;
+    }
+
     if (typeof def === 'function') {
       return def();
     }
@@ -48,12 +77,35 @@ export class MocksFactoryImpl<T extends object> implements MockFactoryRef<T> {
   }
 }
 
+export function array<T>(definition: GeneratorOrDefinition<T>, options: ArrayOptions): ArrayGenerator<T> {
+  return {
+    _type: 'array',
+    definition,
+    options,
+  };
+}
+
 export function autoIncrement(start = 0): GeneratorFunction<number> {
   let current = start;
   return () => current++;
 }
 
-export function int(min: number, max: number): GeneratorFunction<number> {
+type ExtractLiteralUnion<T> = T extends GeneratorFunction<infer L> ? L : never;
+
+export function literal<
+  TProps extends GeneratorFunction<string | number | boolean>,
+  L extends ExtractLiteralUnion<TProps>,
+  LSub extends L
+>(items: LSub[]): TProps {
+  const generator = () => items[Math.floor(Math.random() * items.length)] as LSub;
+  return generator as unknown as TProps;
+}
+
+export function value<T>(val: T): GeneratorFunction<T> {
+  return () => val;
+}
+
+export function range(min: number, max: number): GeneratorFunction<number> {
   return () => Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -61,7 +113,7 @@ export function boolean(chanceTrue = 0.5): GeneratorFunction<boolean> {
   return () => Math.random() < chanceTrue;
 }
 
-export function randomLorem(wordCount = 3): GeneratorFunction<string> {
+export function lorem(wordCount = 3): GeneratorFunction<string> {
   const loremWords = [
     'lorem',
     'ipsum',
