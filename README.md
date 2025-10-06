@@ -4,8 +4,8 @@
 
 [![npm version](https://img.shields.io/npm/v/ngx-api-mocks-interceptor.svg?style=flat-square)](https://www.npmjs.com/package/ngx-api-mocks-interceptor)
 [![npm downloads](https://img.shields.io/npm/dm/ngx-api-mocks-interceptor.svg?style=flat-square)](https://www.npmjs.com/package/ngx-api-mocks-interceptor)
-[![CI Quality](https://img.shields.io/github/actions/workflow/status/MaloPolese/ngx-api-mocks-interceptor/quality.yml?branch=main)](https://github.com/MaloPolese/copy-json-path/tree/main)
-[![License](https://img.shields.io/github/license/MaloPolese/ngx-api-mocks-interceptor?style=flat-square&logo=GNU&label=License)](https://github.com/MaloPolese/copy-json-path/tree/main)
+[![CI Quality](https://img.shields.io/github/actions/workflow/status/MaloPolese/ngx-api-mocks-interceptor/quality.yml?branch=main)](https://github.com/MaloPolese/ngx-api-mocks-interceptor/tree/main)
+[![License](https://img.shields.io/github/license/MaloPolese/ngx-api-mocks-interceptor?style=flat-square&logo=GNU&label=License)](https://github.com/MaloPolese/ngx-api-mocks-interceptor/tree/main)
 [![Angular Version](https://img.shields.io/github/package-json/dependency-version/MaloPolese/ngx-api-mocks-interceptor/@angular/core?style=flat-square&label=angular)](https://angular.io/)
 
 </div>
