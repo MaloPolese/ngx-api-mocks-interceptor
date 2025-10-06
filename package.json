@@ -5,6 +5,8 @@
     "type": "git",
     "url": "git+https://github.com/MaloPolese/ngx-api-mocks-interceptor.git"
   },
+  "description": "A powerful Angular HTTP interceptor for mocking API responses with support for dynamic data generation, path matching, response delays, and simulated file operations. Perfect for development and testing.",
+  "license": "MIT",
   "keywords": [
     "angular",
     "interceptor",
@@ -20,7 +22,7 @@
     "ng": "ng",
     "start": "ng serve demo",
     "build": "ng build",
-    "build:lib": "ng build ngx-api-mocks-interceptor && cp README.md dist/ngx-api-mocks-interceptor/",
+    "build:lib": "ng build ngx-api-mocks-interceptor && cp README.md LICENSE dist/ngx-api-mocks-interceptor/",
     "build:demo": "pnpm build:lib && ng build demo --configuration production",
     "watch": "ng build ngx-api-mocks-interceptor --watch --configuration development",
     "test": "ng test ngx-api-mocks-interceptor --watch=false --browsers ChromeHeadless",
