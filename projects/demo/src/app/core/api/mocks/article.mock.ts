@@ -1,4 +1,4 @@
-import { autoIncrement, mocks, randomLorem } from 'ngx-api-mocks-interceptor';
+import { autoIncrement, mocks, lorem } from 'ngx-api-mocks-interceptor';
 import type { Article } from '../types/article.type';
 import { faker } from '@faker-js/faker';
 
@@ -6,7 +6,7 @@ export const articlesMock = mocks<Article>(
   {
     id: autoIncrement(1),
     title: () => faker.lorem.words(3),
-    description: randomLorem(6),
+    description: lorem(6),
     thumbnail: () => faker.image.urlPicsumPhotos({ width: 640, height: 480 }),
     author: {
       id: autoIncrement(1),
